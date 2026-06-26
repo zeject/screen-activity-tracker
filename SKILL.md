@@ -4,7 +4,7 @@ description: Screen activity tracking with periodic screenshots, VL analysis, an
 version: "1.0.0"
 license: "MIT"
 author: "zeject"
-homepage: "https://github.com/zeject/screen-activity-tracker"
+homepage: "https://gitee.com/zeject/screen-activity-tracker"
 metadata:
   openclaw:
     emoji: "🖥️"
