@@ -369,7 +369,8 @@ MIT License
 
 ## 📧 Support
 
-- Report issues on GitHub
+- [GitHub Issues](https://github.com/zeject-google/screen-activity-tracker/issues)
+- Repository: https://github.com/zeject-google/screen-activity-tracker
 - Discuss on OpenClaw Discord
 
 ---

@@ -380,6 +380,8 @@ MIT License
 
 ---
 
-**问题反馈**：在 GitHub Issues 中提交问题或建议
+**问题反馈**：[GitHub Issues](https://github.com/zeject-google/screen-activity-tracker/issues)
+
+**仓库地址**：https://github.com/zeject-google/screen-activity-tracker
 
 **注意**：此 skill 需要 macOS 和 OpenClaw。由于 peekaboo 依赖，暂不支持 Windows/Linux。
