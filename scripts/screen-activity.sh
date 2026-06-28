@@ -54,21 +54,21 @@ except:
 fi
 
 # ========== App Blacklist Check ==========
-FRONT_APP=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null || echo "未知")
-for keyword in "${APP_BLACKLIST[@]}"; do
-    if echo "$FRONT_APP" | grep -qi "$keyword"; then
-        echo "SKIP: app '$FRONT_APP' matches blacklist keyword '$keyword'"
-        # Log text-only entry
-        DATE=$(date "+%Y-%m-%d")
-        TIME=$(date "+%H:%M")
-        if [ "$BACKEND" = "siyuan" ]; then
-            python3 "$SCRIPT_DIR/siyuan-logger.py" "NONE" "$DATE" "$TIME" "$FRONT_APP 正在使用中（黑名单跳过截图）" 2>/dev/null
-        else
-            echo "- **$TIME** $FRONT_APP 正在使用中（黑名单跳过截图）" >> "$OUTPUT_DIR/$DATE.md"
-        fi
-        exit 0
-    fi
-done
+# FRONT_APP=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null || echo "未知")
+# for keyword in "${APP_BLACKLIST[@]}"; do
+#     if echo "$FRONT_APP" | grep -qi "$keyword"; then
+#         echo "SKIP: app '$FRONT_APP' matches blacklist keyword '$keyword'"
+#         # Log text-only entry
+#         DATE=$(date "+%Y-%m-%d")
+#         TIME=$(date "+%H:%M")
+#         if [ "$BACKEND" = "siyuan" ]; then
+#             python3 "$SCRIPT_DIR/siyuan-logger.py" "NONE" "$DATE" "$TIME" "$FRONT_APP 正在使用中（黑名单跳过截图）" 2>/dev/null
+#         else
+#             echo "- **$TIME** $FRONT_APP 正在使用中（黑名单跳过截图）" >> "$OUTPUT_DIR/$DATE.md"
+#         fi
+#         exit 0
+#     fi
+# done
 
 # ========== Screenshot ==========
 mkdir -p "$OUTPUT_DIR/screenshots"
@@ -86,7 +86,7 @@ if [ -f "$SCREENSHOT" ]; then
     # Build prompt based on analysis mode
     case "$ANALYSIS_MODE" in
         simple)
-            PROMPT='用一句简短中文描述这张屏幕截图中用户正在做什么，格式: [应用名] 简短描述。只输出描述。'
+            PROMPT='中文描述这张屏幕截图中用户正在做什么大概100字左右总结，格式: [应用名] 识别图片中在处理的任务。输出描述。'
             ;;
         category)
             PROMPT='判断用户当前状态，从以下分类选一个：工作 / 娱乐 / 学习 / 休息，格式：[分类] 简短描述。只输出结果。'
@@ -98,7 +98,7 @@ if [ -f "$SCREENSHOT" ]; then
             PROMPT="$ANALYSIS_PROMPT"
             ;;
         *)
-            PROMPT='用一句简短中文描述这张屏幕截图中用户正在做什么，格式: [应用名] 简短描述。只输出描述。'
+            PROMPT='中文描述这张屏幕截图中用户正在做什么大概100字左右总结，格式: [应用名] 识别图片中在处理的任务。输出描述。'
             ;;
     esac
 
@@ -110,7 +110,7 @@ try:
         img_b64 = base64.b64encode(f.read()).decode()
 
     payload = {
-        'model': 'Qwen3.5-9B-MLX-4bit',
+        'model': 'Qwen3.5-2B-MLX-4bit',
         'messages': [{
             'role': 'user',
             'content': [

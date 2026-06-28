@@ -25,13 +25,26 @@ metadata:
 
 Periodically capture screenshots, analyze with a VL model, and log activity to SiYuan Note or local markdown files.
 
-## ⚠️ Mandatory Rules
+## ⚠️ Mandatory Rules (CRITICAL — READ BEFORE ANY ACTION)
 
-**When the user asks to "start tracking" / "开始追踪" / "record screen" etc., you MUST use the `cron` tool to create a scheduled task. NEVER just reply "OK, I'll start tracking" without actually creating the cron job.**
+**Rule 1: Use ONLY `cron` tool for start/stop tracking**
 
-You do NOT have background threads or persistent memory — verbal promises to "start tracking" are useless unless you actually create a cron job via the tool.
+When user says "start tracking" / "开始追踪" / "record screen" / "开始记录", you **MUST** call the `cron` tool with `operation: "add"`.
 
-Likewise, when the user asks to "stop tracking" / "停止追踪", you MUST use the `cron` tool to disable the job.
+**Rule 2: NEVER use `skill_workshop` tool**
+
+Do NOT call `skill_workshop` under any circumstances. This skill does NOT need skill registration, task creation, or proposal submission via skill_workshop. The `skill_workshop` tool will reject your call with validation errors.
+
+**Rule 3: ONLY these 2 tools are allowed for this skill**
+
+| Purpose | Tool | When |
+|---------|------|------|
+| Start/stop/change/list tracking jobs | `cron` | User asks to start/stop tracking |
+| Run summary/search/one-shot scripts | `bash` (or shell command) | User asks for summary, search, or single screenshot |
+
+**Rule 4: No verbal promises**
+
+You do NOT have background threads. Saying "I'll start tracking for you" without calling `cron` tool is a LIE. Always create the actual cron job first, then confirm.
 
 ---
 
