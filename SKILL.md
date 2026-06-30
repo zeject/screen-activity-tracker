@@ -4,7 +4,7 @@ description: "Screen activity tracking. Trigger: track screen activity, start/st
 version: "1.0.0"
 license: "MIT"
 author: "zeject"
-homepage: "https://github.com/zeject-google/screen-activity-tracker"
+homepage: "https://github.com/zeject/screen-activity-tracker"
 metadata:
   openclaw:
     emoji: "🖥️"
