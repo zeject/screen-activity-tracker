@@ -1,387 +1,148 @@
-# Screen Activity Tracker
+# 🦞 Screen Activity Tracker
 
-屏幕活动追踪器 - 自动截图、AI 分析、记录到本地或思源笔记
+> 你的屏幕时间线，由 AI 自动记录。像 Git 一样追踪你的数字生活。
 
-[English Documentation](README_EN.md)
+还记得上周三下午你在做什么吗？可能忘了。但这个工具不会——它默默截图、AI 分析、自动归档，让你随时穿越回过去的任意一个 5 分钟。
 
-## ✨ 功能特点
+## 💡 能做什么
 
-- 📸 **自动截图** - 定时捕捉屏幕，了解自己在做什么
-- 🤖 **AI 视觉分析** - 使用多模态模型（如 Qwen3.5-9B）自动分析截图内容
-- 📝 **双后端支持** - 可选择记录到本地 Markdown 或思源笔记
-- 🔒 **隐私保护** - 应用黑名单，自动跳过敏感应用
-- ⏸️ **闲置检测** - 锁屏或离开时自动跳过，节省存储
-- 📊 **每日总结** - 一键生成当天活动报告
-- 🔍 **历史搜索** - 搜索过去的活动记录
-- 🗑️ **自动清理** - 截图保留 N 天后自动删除（默认 7 天）
+| 你问 AI | AI 回答 |
+|---------|---------|
+| 「今天是怎么过的」 | 「上午写了 3 小时代码，中午刷了会儿推，下午开了 2 个会……」 |
+| 「我上周用 Figma 做了什么」 | 「上周二 14:30 在改首页原型，周四 10:15 在调组件颜色」 |
+| 「什么时候开始写这个项目的」 | 「6 月 22 日 09:30，你在 VS Code 打开了 screen-activity.sh」 |
+| 「算一下我这周的工作效率」 | 「本周有效工作 28 小时，Blender 占比 15%，Safari 占比 12%……生产力评分 7.5」 |
+| 「帮我找一张昨天的截图」 | 直接打开对应时间的截图文件 |
+| 「我在 VS Code 上花了多少时间」 | 「过去 7 天累计 15 小时，单日最高 3.5 小时」 |
 
-## 📦 安装步骤
+## 🎮 像游戏成就系统一样追踪自己
 
-### 1. 安装依赖
+- 🏆 **自动打卡**：每 5 分钟截图一次，像 Apple Watch 一样记录你的数字动线
+- 🧠 **AI 读图**：多模态模型看图说话，自动总结「你正在 VS Code 写 Python」
+- 📊 **每日回顾**：每天结束时 AI 给你一份「今天去哪儿了」的报告
+- 🔍 **时间旅行**：搜索「Figma」就能找回三周前的设计瞬间
+- 🔒 **隐私优先**：银行/支付应用自动跳过不截图，闲置时自动暂停
+- 🗑️ **自动清理**：截图 7 天后自动删除，不占硬盘
+
+## 🚀 3 分钟开始
 
 ```bash
-# 安装 peekaboo（截图工具）
+# 1. 安装截图工具
 npm install -g @steipete/peekaboo
 
-# 确认 Python 3 已安装
-python3 --version
-```
-
-### 2. 安装 Skill
-
-```bash
-# 方法一：从本地路径安装到 OpenClaw
+# 2. 安装 skill
 openclaw skills install /path/to/screen-activity-tracker
 
-# 方法二：直接复制到 OpenClaw skills 目录
-cp -r /path/to/screen-activity-tracker ~/.openclaw/skills/
-```
-
-### 3. 配置
-
-```bash
-cd /path/to/screen-activity-tracker
-cp config.example.json config.json
+# 3. 配置（向导式，一路回车即可）
 python3 setup.py
-```
 
-配置向导会询问：
-- **后端选择**：`local`（本地 Markdown）或 `siyuan`（思源笔记）
-- **思源配置**（如果选择 siyuan 后端）：URL、API Token、笔记本 ID
-- **MLX 模型地址**：如 `http://192.168.1.198:18000/v1`
-- **分析模式**：`simple` / `category` / `productivity` / `custom`
-- **截图间隔**：分钟数（默认 5）
-- **截图保留天数**：0 = 永久保留
-- **应用黑名单**：敏感应用关键词
-
-### 4. 开始追踪
-
-在 OpenClaw 中说：
-
-```
+# 4. 对 OpenClaw 说
 开始追踪屏幕
 ```
 
-OpenClaw 会自动：
-- 检查依赖和配置
-- 创建定时任务（cron job）
-- 开始截图和记录
+搞定。之后每 5 分钟自动记录，你什么都不用管。
 
-### 5. 停止追踪
+## 🗣️ 常用对话
 
-在 OpenClaw 中说：
+| 对话 | 触发功能 |
+|------|---------|
+| 「开始追踪屏幕」 | 创建定时截图任务 |
+| 「停止追踪屏幕」 | 暂停记录 |
+| 「今天屏幕活动总结」 | 当天时间线 + 应用统计 |
+| 「这周我都在干嘛」 | 周度生产力报告 |
+| 「搜索 Blender」 | 查找某应用的历史记录 |
+| 「我上次打开 Xcode 是什么时候」 | 精确时间点查询 |
 
-```
-停止追踪屏幕
-```
-
-## 🎯 使用指南
-
-### 基本命令
-
-| 命令 | 说明 |
-|---|---|
-| `开始追踪屏幕` | 启动定时截图和记录 |
-| `停止追踪屏幕` | 暂停追踪 |
-| `今天屏幕活动总结` | 生成当天活动报告 |
-| `我上次用 Figma 是什么时候` | 搜索历史记录 |
+## 🔧 深度玩法
 
 ### 分析模式
 
-在 `config.json` 中设置 `analysis_mode`：
+在 `config.json` 中切换，适合不同需求：
 
-| 模式 | 说明 | 示例输出 |
-|---|---|---|
-| `simple` | 简单描述（默认） | `[Safari] 浏览 OpenClaw 文档` |
-| `category` | 活动分类 | `[work] 在 VS Code 中编码` |
-| `productivity` | 生产力评分 | `[7] VS Code - 实现新功能` |
-| `custom` | 自定义提示词 | 在 `analysis_prompt` 中设置 |
+| 模式 | 适合谁 | 输出示例 |
+|------|-------|---------|
+| `simple` | 大多数人 | `[Safari] 浏览 OpenClaw 文档` |
+| `category` | 想分类的 | `[work] VS Code 编码 / [娱乐] 看视频` |
+| `productivity` | 效率狂魔 | `[7/10] VS Code - 写新功能测试` |
+| `custom` | 自定义 | 自己写 prompt，想分析什么都行 |
 
-### 后端配置
+### 双后端选择
 
-#### 本地后端（默认）
+- **本地模式**：纯 Markdown，隐私满分，所有数据都在你电脑上
+- **思源笔记模式**：自动创建每日「操作记录」+「截图存档」两个文档，截图嵌入可点击查看
 
-记录到本地 Markdown 文件：
+### 隐私黑名单
 
-```json
-{
-  "backend": "local",
-  "local": {
-    "output_dir": "~/screen-activity",
-    "keep_days": 7
-  }
-}
+```
+「支付宝/银行/密码管理器」→ 自动跳过不截图
+（但时间线仍会记录「此时在使用金融应用」）
 ```
 
-文件结构：
+闲置时自动暂停，你上厕所、喝水、锁屏都不被记录。
+
+## 📂 输出长这样
+
 ```
 ~/screen-activity/
-├── 2026-06-26.md          # 今日活动记录
-├── 2026-06-27.md
+├── 2026-06-30.md              ← 今天的数字日记
+├── 2026-06-29.md
 └── screenshots/
-    ├── 2026-06-26/
-    │   ├── 143000.png
-    │   └── 143500.png
-    └── 2026-06-27/
-        └── 090300.png
+    └── 2026-06-30/
+        ├── 09:30:00.png       ← AI 帮你拍的时光快照
+        ├── 09:35:00.png
+        └── ...
 ```
 
-#### 思源笔记后端
+日志文件内是带截图链接的时间线，每天一条：
 
-记录到思源笔记，每日自动创建两个文档：
+```markdown
+## 2026-06-30 屏幕活动
 
-- **操作记录** - 时间线列表，含截图链接
-- **截图存档** - 完整截图嵌入，可点击查看
-
-```json
-{
-  "backend": "siyuan",
-  "siyuan": {
-    "url": "http://192.168.1.100:6806",
-    "token": "YOUR_API_TOKEN",
-    "notebook_id": "YOUR_NOTEBOOK_ID"
-  }
-}
+- **09:30** VS Code 编辑 screen-activity.sh
+  ![](screenshots/2026-06-30/093000.png)
+- **09:35** Safari 查看 GitHub Issues
+  ![](screenshots/2026-06-30/093500.png)
 ```
 
-## 🔧 手动运行（不通过 OpenClaw）
+## 🛠️ 系统要求
 
-```bash
-# 运行一次截图+分析+记录
-bash /path/to/screen-activity-tracker/scripts/screen-activity.sh
+- macOS + 屏幕录制权限
+- Python 3.x
+- peekaboo CLI
+- 一个兼容 OpenAI API 的视觉模型（Qwen3.5-9B / GPT-4V 等）
 
-# 生成每日总结
-python3 /path/to/screen-activity-tracker/scripts/activity-analyzer.py summary
+## ❓ 常见问题
 
-# 搜索历史
-python3 /path/to/screen-activity-tracker/scripts/activity-analyzer.py search "Figma"
+<details>
+<summary>截图失败怎么办？</summary>
+系统设置 → 隐私与安全性 → 屏幕录制 → 勾选 OpenClaw 所在的终端应用
+</details>
 
-# 分析指定截图
-python3 /path/to/screen-activity-tracker/scripts/activity-analyzer.py analyze /path/to/screenshot.png
-```
+<details>
+<summary>AI 分析失败？</summary>
+检查 MLX 服务是否在线：`curl http://your-mlx-server:18000/v1/models`
+</details>
 
-## 🔒 隐私设置
+<details>
+<summary>想改成 10 分钟截图一次？</summary>
+改 `config.json` 里的 `interval_minutes`，或者直接问 AI：「把截图间隔改成 10 分钟」
+</details>
 
-### 应用黑名单
+<details>
+<summary>数据存在哪，安全吗？</summary>
+默认 `~/screen-activity/`，纯本地文件，不联网不传云端。
+</details>
 
-在 `config.json` 中配置 `app_blacklist`：
+## 📄 License
 
-```json
-{
-  "app_blacklist": ["银行", "密码", "支付宝", "微信支付", "登录", "信用卡"]
-}
-```
+MIT
 
-匹配黑名单的应用会：
-- ❌ 不截图
-- ✅ 仍记录应用名称和时间（无截图）
+## 🔗 链接
 
-### 闲置检测
-
-当检测到用户闲置（无键盘/鼠标输入）超过 5 分钟时，自动跳过截图。
-
-可在 `config.json` 中禁用：
-```json
-{
-  "idle_detection": false
-}
-```
-
-## 📊 每日总结示例
-
-问：`今天屏幕活动总结`
-
-答：
-```
-📊 2026-06-26 活动总结
-
-总追踪时间：6 小时 30 分钟
-有效活动：5 小时 10 分钟
-闲置时间：1 小时 20 分钟
-
-主要应用：
-  - VS Code       2 小时 30 分钟  [work]
-  - Safari        1 小时 45 分钟  [work]
-  - Terminal      45 分钟         [work]
-  - 微信          30 分钟         [communication]
-
-活动分类：
-  - 工作：4 小时 20 分钟 (84%)
-  - 沟通：30 分钟 (9%)
-  - 娱乐：20 分钟 (7%)
-
-生产力评分：7.5/10
-```
-
-## 🔍 搜索历史
-
-问：`我上周三在做什么？`
-
-答：
-```
-🔍 搜索结果：2026-06-19 (周三)
-
-09:30 [VS Code] 实现用户登录功能
-10:15 [Safari] 查阅 OAuth2 文档
-11:00 [Terminal] 运行单元测试
-...
-```
-
-问：`上次用 Figma 是什么时候？`
-
-答：
-```
-🔍 搜索结果：Figma
-
-最近一次：2026-06-25 14:30
-  [Figma] 设计新版首页原型
-
-历史记录：
-  - 2026-06-25 14:30
-  - 2026-06-20 10:15
-  - 2026-06-18 16:45
-```
-
-## ⚙️ 配置文件说明
-
-`config.json` 完整配置：
-
-```json
-{
-  "backend": "local",
-  "local": {
-    "output_dir": "~/screen-activity",
-    "keep_days": 7
-  },
-  "siyuan": {
-    "url": "http://127.0.0.1:6806",
-    "token": "YOUR_API_TOKEN",
-    "notebook_id": "YOUR_NOTEBOOK_ID"
-  },
-  "mlx_url": "http://192.168.1.198:18000/v1",
-  "analysis_mode": "simple",
-  "analysis_prompt": "",
-  "interval_minutes": 5,
-  "idle_detection": true,
-  "app_blacklist": [
-    "银行",
-    "密码",
-    "支付宝",
-    "微信支付",
-    "登录"
-  ]
-}
-```
-
-| 字段 | 说明 | 默认值 |
-|---|---|---|
-| `backend` | 后端类型：`local` 或 `siyuan` | `local` |
-| `local.output_dir` | 本地后端输出目录 | `~/screen-activity` |
-| `local.keep_days` | 截图保留天数（0 = 永久） | `7` |
-| `siyuan.url` | 思源笔记地址 | - |
-| `siyuan.token` | 思源笔记 API Token | - |
-| `siyuan.notebook_id` | 思源笔记本 ID | - |
-| `mlx_url` | MLX 模型服务地址 | - |
-| `analysis_mode` | 分析模式 | `simple` |
-| `analysis_prompt` | 自定义分析提示词（mode=custom 时） | - |
-| `interval_minutes` | 截图间隔（分钟） | `5` |
-| `idle_detection` | 是否启用闲置检测 | `true` |
-| `app_blacklist` | 应用黑名单关键词列表 | 见上方 |
-
-## 🐛 故障排除
-
-### 截图失败
-
-**问题**：`Screenshot failed`
-
-**解决**：
-1. 打开"系统设置" > "隐私与安全性" > "屏幕录制"
-2. 确保运行 OpenClaw 的应用（Terminal 或 OpenClaw）已勾选
-3. 重启应用使权限生效
-
-### VL 分析失败
-
-**问题**：`VL analysis failed` 或超时
-
-**解决**：
-1. 检查 MLX 服务是否运行：`curl http://YOUR_MLX_URL/v1/models`
-2. 确认模型支持图片输入（多模态模型）
-3. 检查网络连接和防火墙设置
-
-### Cron 任务未运行
-
-**问题**：定时任务没有执行
-
-**解决**：
-1. 检查任务状态：`openclaw cron list`
-2. 查看任务日志：`openclaw cron runs --id <任务ID>`
-3. 如果任务被禁用，启用它：`openclaw cron edit <任务ID> --enable`
-4. 可能需要在 OpenClaw Dashboard 中批准任务
-
-### 思源笔记写入失败
-
-**问题**：`SiYuan write failed`
-
-**解决**：
-1. 检查思源是否运行：`curl http://YOUR_SIYUAN_URL/api/system/version`
-2. 确认 API Token 正确（在思源"设置" > "API" 中查看）
-3. 确认笔记本 ID 正确（在思源 URL 中查看）
-4. 检查 Token 有写入权限
-
-### peekaboo 命令找不到
-
-**问题**：`peekaboo: command not found`
-
-**解决**：
-```bash
-# 确认安装
-npm list -g @steipete/peekaboo
-
-# 如果已安装但找不到，检查 PATH
-echo $PATH
-
-# 手动添加到 PATH（添加到 ~/.zshrc）
-export PATH="$HOME/.npm-global/bin:$PATH"
-```
-
-## 📝 开发笔记
-
-### 项目结构
-
-```
-screen-activity-tracker/
-├── SKILL.md                      # OpenClaw skill 定义（给模型读）
-├── README.md                     # 中文用户说明文档
-├── README_EN.md                  # 英文用户说明文档
-├── config.example.json           # 配置模板
-├── setup.py                      # 交互式配置向导
-└── scripts/
-    ├── screen-activity.sh       # 主脚本（截图+分析+写入）
-    ├── siyuan-logger.py        # 双后端写入（本地+思源）
-    └── activity-analyzer.py     # 每日汇总+搜索历史
-```
-
-### 技术栈
-
-- **截图**：peekaboo（macOS 截图 API）
-- **视觉分析**：OpenAI 兼容 API（MLX-LM / Qwen3.5-9B）
-- **后端**：本地 Markdown / 思源笔记 API
-- **定时任务**：OpenClaw Cron
-
-## 📄 许可证
-
-MIT License
-
-## 🙏 致谢
-
-- [OpenClaw](https://openclaw.ai) - AI 助手框架
-- [Peekaboo](https://github.com/steipete/peekaboo) - macOS 截图工具
-- [SiYuan Note](https://b3log.org/siyuan/) - 本地优先的笔记软件
+- GitHub: https://github.com/zeject/screen-activity-tracker
+- ClawHub: https://clawhub.ai/zeject/screen-activity-tracker
+- 极简版: https://github.com/zeject/screen-activity-tracker-lite
 
 ---
 
-**问题反馈**：[GitHub Issues](https://github.com/zeject-google/screen-activity-tracker/issues)
-
-**仓库地址**：https://github.com/zeject-google/screen-activity-tracker
-
-**注意**：此 skill 需要 macOS 和 OpenClaw。由于 peekaboo 依赖，暂不支持 Windows/Linux。
+*「时间是怎么被偷走的？」——让 AI 帮你计时。*
