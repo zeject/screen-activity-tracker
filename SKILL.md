@@ -1,7 +1,7 @@
 ---
 name: screen-activity-tracker
 description: "Screen activity tracking. Trigger: track screen activity, start/stop tracking, daily summary, search history, 开始追踪屏幕, 屏幕活动总结, 整理今天的操作. Uses cron tool for tracking and bash for summary/search."
-version: "1.0.0"
+version: "1.0.1"
 license: "MIT"
 author: "zeject"
 homepage: "https://github.com/zeject/screen-activity-tracker"
